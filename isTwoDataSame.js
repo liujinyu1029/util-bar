@@ -1,11 +1,16 @@
 import { getType } from './getType'
-/* 
+/*
  * 主要是利用json化作对比
  * 数组会对比内容，即便顺序不同，也视为相等
  * 并不校对 regExp、Function 类型
- * 
+ *
 */
 export const isTwoDataSame = (obj1, obj2) => {
+  // 情况一：obj1、obj2 为 数字、字符串、function、undefined、null 时
+  if (typeof obj1 !== 'object' || typeof obj2 !== 'object' || obj1 === null || obj2 === null) {
+    return obj1 === obj2
+  }
+  // 情况二：obj1、obj2 为 对象、数组 时
   // 长度都不等，也就没必要再比了
   if (Object.keys(obj1).length !== Object.keys(obj2).length) {
     return false
