@@ -1,7 +1,7 @@
 // 元素类型判断 返回一个字符串 string
-export function getType (obj) {
+const getDataType = obj => {
   // tostring会返回对应不同的标签的构造函数
-  var map = {
+  const MAP = {
     '[object Boolean]': 'boolean',
     '[object Number]': 'number',
     '[object String]': 'string',
@@ -13,5 +13,5 @@ export function getType (obj) {
     '[object Null]': 'null',
     '[object Object]': 'object'
   }
-  return map[Object.prototype.toString.call(obj)]
+  return MAP[Object.prototype.toString.call(obj)]
 }
