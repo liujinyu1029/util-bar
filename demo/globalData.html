@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>全局数据监听demo</title>
+  </head>
+  <body>
+    <script src="../pure-fun/event.js"></script>
+    <script src="../pure-fun/globalData.js"></script>
+    <script>
+      const { userInfo } = globalData;
+      userInfo.name = "liujinyu";
+      // 要先启动监听watch，后赋值
+      userInfo.watch("name", str => {
+        console.log("My name is:", str);
+      });
+      userInfo.name = "Noah";
+    </script>
+  </body>
+</html>
