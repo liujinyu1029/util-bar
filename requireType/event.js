@@ -44,7 +44,6 @@ Events.prototype = {
     if (arguments.length == 1) {
       delete this._events[name];
     }
-    // 两个参数 ： 清掉该事件下 fn
     let fns = this._events[name];
     if (!fns || !fns.length) return;
     this._events[name] = (fns || []).filter((item) => {
@@ -52,4 +51,5 @@ Events.prototype = {
     });
   },
 };
-export default new Events();
+
+module.exports = new Events();
