@@ -1,0 +1,24 @@
+{
+  "name": "bar-util",
+  "version": "1.0.0",
+  "description": "放一些比较常用的功能方法，方便随时使用",
+  "main": "assignFull.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liujinyu1029/util-bar.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/liujinyu1029/util-bar/issues"
+  },
+  "homepage": "https://github.com/liujinyu1029/util-bar#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/preset-env": "^7.10.4",
+    "jest": "^26.1.0"
+  }
+}

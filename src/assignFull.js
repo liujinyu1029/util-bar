@@ -1,4 +1,4 @@
-// 不同于Object.assign,assignFull是完全扩展，不管是对象、还是数组
+// 基本等效Object.assign方法，不同于的是，assignFull会对参数内的对象、数组属性，进行合并，而不是Object.assign的直接覆盖
 // @params (object|array,object|array...)
 // @return object|array;
 export const assignFull = (...objArgs)=>{
@@ -19,7 +19,7 @@ export const assignFull = (...objArgs)=>{
     if(pre instanceof Array){
       return cur
     }
-    for (key in cur) {
+    for (let key in cur) {
       if(!cur.hasOwnProperty(key)){
         continue
       }
