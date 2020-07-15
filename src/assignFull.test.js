@@ -65,6 +65,22 @@ describe("assignFull 单元测试", function () {
         null
       )
     ).toEqual({people:{ name: "liujinyu", age: 18} });
+        // 数组合并 抗干扰
+    const asssignArrRes = assignFull(
+      [],
+      undefined,
+      null,
+      [{ people: { name: "liujinyu" } }],
+      undefined,
+      null,
+      [{ people: { age: 18 } }],
+      123,
+      "xxx",
+      undefined,
+      null
+    )
+    expect(asssignArrRes).toEqual([{ people: { name: "liujinyu" } },{ people: { age: 18 } }]);
+    
   });
 
   test("健壮性测试：无有效输入时，返回空对象", () => {
