@@ -1,13 +1,17 @@
 // 基本等效Object.assign方法，不同于的是，assignFull会对参数内的对象、数组属性，进行合并，而不是Object.assign的直接覆盖
 // @params (object|array,object|array...)
 // @return object|array;
-export const assignFull = (...objArgs)=>{
+ const assignFull = (...objArgs)=>{
   return objArgs.reduce((pre,cur)=>{
-    // prar1:cur不是对象类型
+    // part1:cur 是字符串、数字等普通数据类型
     if(!(cur instanceof Object)){
-      return pre
+      return cur
     }
-    // part2：cur是数组
+    // part2:cur 是函数类型
+    if(typeof cur === 'function'){
+      return cur
+    }
+    // part3：cur是数组
     if(cur instanceof Array){
       if(pre instanceof Array){
         return pre.concat(cur)
@@ -16,9 +20,11 @@ export const assignFull = (...objArgs)=>{
       }
     }
     // part3:cur是对象类型
-    if(pre instanceof Array){
+    // 但pre不是对象
+    if(!(pre instanceof Object) || pre instanceof Array || typeof pre === 'function'){
       return cur
     }
+    // pre也是对象
     for (let key in cur) {
       if(!cur.hasOwnProperty(key)){
         continue
