@@ -3,26 +3,32 @@ import { parseObj, stringifyObj } from './stringify-parse';
 describe('stringifyObj序列化+parseObj反序列化 单元测试', function () {
   test('函数声明方式', () => {
     let obj = {
-      name: 'liujinyu',
-      getName: function (name) {
-        return name || this.name;
+      data:{
+        name: 'liujinyu',
+        getName: function (name) {
+          return name || this.name;
+        },
       }
     };
     let objStr = stringifyObj(obj);
     let newObj = parseObj(objStr);
-    expect(newObj.getName()).toEqual('liujinyu');
+    expect(newObj.data.getName()).toEqual('liujinyu');
   });
 
 test('简写法', () => {
     let obj = {
-      name: 'liujinyu',
-      getName(name) {
-        return name || this.name;
+      data:{
+        data:{
+          name: 'liujinyu',
+          getName(name) {
+            return name || this.name;
+          }
+        }
       }
     };
     let objStr = stringifyObj(obj);
     let newObj = parseObj(objStr);
-    expect(newObj.getName()).toEqual('liujinyu');
+    expect(newObj.data.data.getName()).toEqual('liujinyu');
   });
 
   test('箭头函数', () => {
