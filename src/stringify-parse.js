@@ -2,19 +2,24 @@
 // stringifyObj +  parseObj，作为JSON的扩展，序列化后可以保留function
 // PS：为了加强转换安全，会加一些料(SIGN)，所以 stringifyObj + parseObj 必须要配套使用
 const PARSE_SIGN = '_liujinyu_';
-export const stringifyObj = (curObj) => {
+export const stringifyObj = (curData) => {
   let _handFormat = (obj) => {
-    return Object.keys(obj).reduce((targObj, key) => {
-      let val = obj[key];
-      if (Object.prototype.toString.call(val) === '[object Object]') {
-        val = _handFormat(val);
-      } else if (val instanceof Function) {
-        val = PARSE_SIGN + val.toString().replace(/[\n\t]/g, '');
-      }
-      return { ...targObj, [key]: val };
-    }, {});
+    let isArray = getDataType(obj) === 'array';
+    return Object.keys(obj).reduce(
+      (tarData, key) => {
+        let val = obj[key];
+        let type = getDataType(val);
+        if (type === 'object' || type === 'array') {
+          val = _handFormat(val);
+        } else if (val instanceof Function) {
+          val = PARSE_SIGN + val.toString().replace(/[\n\t]/g, '');
+        }
+        return isArray ? tarData.concat(val) : { ...tarData, [key]: val };
+      },
+      isArray ? [] : {}
+    );
   };
-  return JSON.stringify(_handFormat(curObj));
+  return JSON.stringify(_handFormat(curData));
 };
 
 export const parseObj = (curJson) => {
@@ -33,7 +38,7 @@ export const parseObj = (curJson) => {
   let _parse = (obj) => {
     Object.keys(obj).forEach((key) => {
       let value = obj[key];
-      if (Object.prototype.toString.call(value) === '[object Object]') {
+      if (getDataType(value) === 'object' || getDataType(value) === 'array') {
         _parse(value);
       } else if (RegExp(PARSE_SIGN).test(value)) {
         value = value.replace(PARSE_SIGN, '');
@@ -50,32 +55,20 @@ export const parseObj = (curJson) => {
   return obj;
 };
 
-const parseObj_v1 = (strObj) => {
-  let obj = JSON.parse(strObj || '{}');
-  // 箭头函数 ()=>{}
-  let funReg1 = /[\w\(\)\s]+=>.+/;
-  // function fun(){} 、 fun(){}
-  let funReg2 = /\(.*\)\s*\{.*\}/;
-  let handCode = (key, funCode) => {
-    try {
-      let fun = Function(`return ${funCode}`)();
-      if (fun instanceof Function) {
-        obj[key] = fun;
-      }
-    } catch (e) {}
+// 元素类型判断 返回一个字符串 string
+const getDataType = (obj) => {
+  // tostring会返回对应不同的标签的构造函数
+  const MAP = {
+    '[object Boolean]': 'boolean',
+    '[object Number]': 'number',
+    '[object String]': 'string',
+    '[object Function]': 'function',
+    '[object Array]': 'array',
+    '[object Date]': 'date',
+    '[object RegExp]': 'regExp',
+    '[object Undefined]': 'undefined',
+    '[object Null]': 'null',
+    '[object Object]': 'object'
   };
-  Object.keys(obj).forEach((key) => {
-    let value = obj[key],
-      patchStr = '';
-    if (funReg1.test(value)) {
-      handCode(key, value);
-    } else if (funReg2.test(value)) {
-      if (/function/.test(value)) {
-        handCode(key, value);
-      } else {
-        handCode(key, 'function ' + value);
-      }
-    }
-  });
-  return obj;
+  return MAP[Object.prototype.toString.call(obj)];
 };
