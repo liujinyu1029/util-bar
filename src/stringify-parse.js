@@ -1,16 +1,16 @@
 // JSON.stringify 会丢掉function
 // stringifyObj +  parseObj，作为JSON的扩展，序列化后可以保留function
 // PS：为了加强转换安全，会加一些料(SIGN)，所以 stringifyObj + parseObj 必须要配套使用
-const PARSE_SIGN = '_liujinyu_'
-export const stringifyObj = obj => {
+const PARSE_SIGN = '_liujinyu_';
+export const stringifyObj = (obj) => {
   let newObj = Object.keys(obj).reduce((targObj, key) => {
-    let val = (obj[key] instanceof Function && PARSE_SIGN+obj[key].toString().replace(/[\n\t]/g, '')) || obj[key];
+    let val = (obj[key] instanceof Function && PARSE_SIGN + obj[key].toString().replace(/[\n\t]/g, '')) || obj[key];
     return { ...targObj, [key]: val };
   }, {});
   return JSON.stringify(newObj);
-}
+};
 
-export const parseObj = strObj => {
+export const parseObj = (strObj) => {
   let obj = JSON.parse(strObj || '{}');
   let handCode = (key, funCode) => {
     try {
@@ -22,20 +22,20 @@ export const parseObj = strObj => {
   };
   Object.keys(obj).forEach((key) => {
     let value = obj[key];
-    let reg = new RegExp(PARSE_SIGN)
+    let reg = new RegExp(PARSE_SIGN);
     if (reg.test(value)) {
-      value = value.replace(PARSE_SIGN,'')
-      if(!/(function)|(=>)/.test(value)){
+      value = value.replace(PARSE_SIGN, '');
+      if (!/(function)|(=>)/.test(value)) {
         handCode(key, 'function ' + value);
-      }else{
+      } else {
         handCode(key, value);
       }
     }
   });
   return obj;
-}
+};
 
-const parseObj_v1 = strObj => {
+const parseObj_v1 = (strObj) => {
   let obj = JSON.parse(strObj || '{}');
   // 箭头函数 ()=>{}
   let funReg1 = /[\w\(\)\s]+=>.+/;
@@ -63,4 +63,4 @@ const parseObj_v1 = strObj => {
     }
   });
   return obj;
-}
+};
