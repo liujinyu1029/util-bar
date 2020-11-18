@@ -12,7 +12,7 @@ export const stringifyObj = (curData) => {
         if (type === 'object' || type === 'array') {
           val = _handFormat(val);
         } else if (val instanceof Function) {
-          val = PARSE_SIGN + val.toString().replace(/[\n\t]/g, '');
+          val = PARSE_SIGN + val.toString();
         }
         return isArray ? tarData.concat(val) : { ...tarData, [key]: val };
       },

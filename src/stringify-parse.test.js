@@ -8,6 +8,7 @@ describe('stringifyObj序列化+parseObj反序列化 单元测试', function () 
           {
             name: 'liujinyu',
             getName: function (name) {
+              // liujinyu
               return name || this.name;
             }
           }
