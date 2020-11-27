@@ -1,6 +1,6 @@
-import { parseObj, stringifyObj } from './stringify-parse';
+import { parseJson, stringifyJson } from './jsonMore';
 
-describe('stringifyObj序列化+parseObj反序列化 单元测试', function () {
+describe('stringifyObj序列化+parseJson反序列化 单元测试', function () {
   test('函数声明方式', () => {
     let obj = {
       data: {
@@ -21,8 +21,8 @@ describe('stringifyObj序列化+parseObj反序列化 单元测试', function () 
         }
       }
     };
-    let objStr = stringifyObj(obj);
-    let newObj = parseObj(objStr);
+    let objStr = stringifyJson(obj);
+    let newObj = parseJson(objStr);
     expect(newObj.data.arr[0].getName()).toEqual('liujinyu');
     expect(newObj.data.obj.getName()).toEqual('liujinyu');
   });
@@ -38,8 +38,8 @@ describe('stringifyObj序列化+parseObj反序列化 单元测试', function () 
         }
       }
     };
-    let objStr = stringifyObj(obj);
-    let newObj = parseObj(objStr);
+    let objStr = stringifyJson(obj);
+    let newObj = parseJson(objStr);
     expect(newObj.data.data.getName()).toEqual('liujinyu');
   });
 
@@ -56,8 +56,8 @@ describe('stringifyObj序列化+parseObj反序列化 单元测试', function () 
       getName2: (name) => name,
       getName3: () => 'liujinyu'
     };
-    let objStr = stringifyObj(obj);
-    let newObj = parseObj(objStr);
+    let objStr = stringifyJson(obj);
+    let newObj = parseJson(objStr);
     expect(newObj.getName('liujinyu')).toEqual('liujinyu');
     expect(newObj.getName1('liujinyu', 30)).toEqual('liujinyu30');
     expect(newObj.getName2('liujinyu')).toEqual('liujinyu');

@@ -2,7 +2,7 @@
 // stringifyObj +  parseObj，作为JSON的扩展，序列化后可以保留function
 // PS：为了加强转换安全，会加一些料(SIGN)，所以 stringifyObj + parseObj 必须要配套使用
 const PARSE_SIGN = '_liujinyu_';
-export const stringifyObj = (curData) => {
+export const stringifyJson = (curData) => {
   let _handFormat = (obj) => {
     let isArray = getDataType(obj) === 'array';
     return Object.keys(obj).reduce(
@@ -22,7 +22,7 @@ export const stringifyObj = (curData) => {
   return JSON.stringify(_handFormat(curData));
 };
 
-export const parseObj = (curJson) => {
+export const parseJson = (curJson) => {
   let _transFun = (funString) => {
     try {
       let fun = Function(`return ${funString}`)();
