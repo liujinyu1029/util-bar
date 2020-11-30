@@ -1,6 +1,25 @@
 import { parseJson, stringifyJson } from './jsonMore';
 
 describe('stringifyObj序列化+parseJson反序列化 单元测试', function () {
+  test('Numer、String关键字等的转换1',()=>{
+    let option = {
+      properties: {
+        fCount: {
+            type: Number,
+            observer: function (newVal) {
+                console.log(newVal)
+            }
+        },
+        t1:Boolean,
+        t2:String,
+        t3:Object,
+        t4:Function
+      },
+    }
+    let resJson = stringifyJson(option);
+    let resObj = parseJson(resJson)
+    // expect(resObj.properties.fCount.type).toEqual(Number);
+  })
   test('函数声明方式', () => {
     let obj = {
       data: {
